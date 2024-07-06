@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './Cards.css';
-import CreateCards, { pokemonType } from '../components/Cards';
+import Cards, { pokemonType } from '../components/Cards';
 
 export const API_TOKEN_KEY = '3e444d11-5c5e-48c8-939d-cc87b9b9903a';
 export const URL = `https://api.pokemontcg.io/v2/cards/`;
@@ -46,6 +46,6 @@ export default class DataFetchingComponent extends Component<
   render() {
     const { pokemonData } = this.state;
 
-    return <CreateCards data={pokemonData} />;
+    return <Cards data={pokemonData} />;
   }
 }

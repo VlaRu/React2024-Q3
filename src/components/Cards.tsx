@@ -14,7 +14,7 @@ export interface CreateCardsProps {
   data: pokemonType[];
 }
 
-export default class CreateCards extends Component<CreateCardsProps> {
+export default class Cards extends Component<CreateCardsProps> {
   render() {
     const { data } = this.props;
 
