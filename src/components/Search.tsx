@@ -9,36 +9,30 @@ type NameData = {
 export class Search extends Component {
   state: NameData = {
     searchName: '',
-    submitName: localStorage.getItem('name') || '',
+    submitName: localStorage.getItem('name') || ('' as string),
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.setState({ submitName: localStorage.getItem('name') || '' });
-    console.log('unmount');
   }
 
-  /*   componentWillUnmount () {
-    localStorage.setItem('name', this.state.searchName);
-    console.log('unmount');
-  } */
-
-  submitSearch = (e: { preventDefault: () => void }) => {
+  submitSearch = (e) => {
     e.preventDefault();
     this.setState({
       submitName: this.state.searchName,
     });
-    console.log(`submit name ${this.state.submitName}`);
+    localStorage.setItem('name', this.state.searchName as string);
   };
 
-  handleSearchChange = (e: { target: { value: string | null } }) => {
+  handleSearchChange = (e) => {
     this.setState({
       searchName: e.target.value,
     });
-    localStorage.setItem('name', this.state.searchName);
-    console.log(`the search name after change ${this.state.searchName}`);
   };
 
   render() {
+    console.log(`render ${this.state.submitName}`);
+
     return (
       <>
         <h1>Hello, Search{}!</h1>
