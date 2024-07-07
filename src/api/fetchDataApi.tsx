@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import Cards, { pokemonType } from '../components/Card/Cards';
+import spinner from './../assets/Spinner.svg';
 
-export const URL = `https://api.pokemontcg.io/v2/cards/`;
+export const URL = `https://api.pokemontcg.io/v2/cards/?page=1&pageSize=16&`;
 
 type DataFetchingProps = {
   query: string;
@@ -9,6 +10,7 @@ type DataFetchingProps = {
 
 type DataFetchingState = {
   pokemonData: pokemonType[];
+  isFetching: boolean;
 };
 
 export default class DataFetchingComponent extends Component<
@@ -17,6 +19,7 @@ export default class DataFetchingComponent extends Component<
 > {
   state = {
     pokemonData: [],
+    isFetching: false,
   };
 
   componentDidMount() {
@@ -30,20 +33,34 @@ export default class DataFetchingComponent extends Component<
   }
 
   fetchData(query: string) {
-    const queryString = query ? `?q=name:${query}` : '';
+    this.setState({ isFetching: true });
+    const queryString = query ? `q=name:${query}` : '';
     fetch(`${URL}${queryString}`)
       .then((response) => response.json())
       .then((data) => {
+        this.setState({ isFetching: false });
         this.setState({ pokemonData: data.data });
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        this.setState({ isFetching: true });
       });
   }
 
   render() {
-    const { pokemonData } = this.state;
+    const { pokemonData, isFetching } = this.state;
 
-    return <Cards data={pokemonData} />;
+    return (
+      <div>
+        {isFetching ? (
+          <img
+            src={spinner}
+            alt="Loading..."
+          />
+        ) : (
+          <Cards data={pokemonData} />
+        )}
+      </div>
+    );
   }
 }
