@@ -1,4 +1,5 @@
 import React from 'react';
+import './Error.css';
 
 export default class ErrorButton extends React.Component {
   state = {
@@ -17,7 +18,12 @@ export default class ErrorButton extends React.Component {
     }
     return (
       <div>
-        <button onClick={this.handleClick}>Show error</button>
+        <button
+          onClick={this.handleClick}
+          className="error-btn"
+        >
+          Show error
+        </button>
       </div>
     );
   }
