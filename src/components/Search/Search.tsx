@@ -9,7 +9,7 @@ type NameData = {
 
 export class Search extends Component {
   state: NameData = {
-    searchName: '',
+    searchName: localStorage.getItem('name') || '',
     submitName: localStorage.getItem('name') || ('' as string),
   };
 
