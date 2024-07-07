@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import Cards, { pokemonType } from '../components/Card/Cards';
 
-export const API_TOKEN_KEY = '3e444d11-5c5e-48c8-939d-cc87b9b9903a';
 export const URL = `https://api.pokemontcg.io/v2/cards/`;
 
 type DataFetchingProps = {
