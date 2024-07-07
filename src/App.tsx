@@ -1,8 +1,14 @@
 import './App.css';
-import { Search } from './components/Search';
+import ErrorButton from './components/Error/ErrorButton';
+import { Search } from './components/Search/Search';
 
 function App() {
-  return <Search />;
+  return (
+    <>
+      <ErrorButton />
+      <Search />
+    </>
+  );
 }
 
 export default App;
