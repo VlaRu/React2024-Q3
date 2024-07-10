@@ -7,11 +7,15 @@ type NameData = {
   submitName: string;
 };
 
-export class Search extends Component {
-  state: NameData = {
-    searchName: localStorage.getItem('name') || '',
-    submitName: localStorage.getItem('name') || ('' as string),
-  };
+export class Search extends Component<Record<string, never>, NameData> {
+  constructor(props: Record<string, never>) {
+    super(props);
+    const localState = localStorage.getItem('name') || '';
+    this.state = {
+      searchName: localState || '',
+      submitName: localState || ('' as string),
+    };
+  }
 
   componentDidMount(): void {
     this.setState({ submitName: localStorage.getItem('name') || '' });
@@ -20,7 +24,7 @@ export class Search extends Component {
   submitSearch = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     this.setState({
-      submitName: this.state.searchName.replace(/\s+/g, ''),
+      submitName: this.state.searchName,
     });
     localStorage.setItem('name', this.state.searchName as string);
   };
@@ -51,7 +55,9 @@ export class Search extends Component {
             className="submit-search-btn"
           />
         </form>
-        <DataFetchingComponent query={this.state.submitName} />
+        <DataFetchingComponent
+          query={this.state.submitName.replace(/\s+/g, '')}
+        />
       </>
     );
   }
