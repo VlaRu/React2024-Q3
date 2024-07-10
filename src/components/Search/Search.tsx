@@ -20,7 +20,7 @@ export class Search extends Component {
   submitSearch = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     this.setState({
-      submitName: this.state.searchName.trim(),
+      submitName: this.state.searchName.replace(/\s+/g, ''),
     });
     localStorage.setItem('name', this.state.searchName as string);
   };
