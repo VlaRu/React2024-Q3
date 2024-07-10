@@ -34,7 +34,7 @@ export default class DataFetchingComponent extends Component<
 
   fetchData(query: string) {
     this.setState({ isFetching: true });
-    const queryString = query ? `q=name:${query}` : '';
+    const queryString = query ? `q=name:${query}*` : '';
     fetch(`${URL}${queryString}`)
       .then((response) => response.json())
       .then((data) => {
