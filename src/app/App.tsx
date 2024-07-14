@@ -2,33 +2,27 @@ import './App.css';
 import ErrorButton from '../components/Error/ErrorButton';
 import Search from '../components/Search/Search';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ErrorPage from '../pages/error-page';
-
-/* function App() {
-  return (
-    <>
-      <ErrorButton />
-      <Search />
-    </>
-  );
-}
-
-export default App; */
+import ErrorPage from '../components/Error/ErrorPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={<ErrorButton />}/> */}
         <Route
           path="/"
           element={<Search />}
-        />
+        >
+          <Route path="page/:id" />
+          <Route path="product/:id" />
+        </Route>
         <Route
           path="*"
           element={<ErrorPage />}
         />
-        <ErrorButton />
+        <Route
+          path="*"
+          element={<ErrorButton />}
+        />
       </Routes>
     </BrowserRouter>
   );

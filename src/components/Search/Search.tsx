@@ -4,6 +4,7 @@ import Cards from '../Card/Cards';
 import { pokemonType } from '../../interfaces/interface';
 import { Pagination } from '../Pagination/Pagination';
 import { FetchResponse } from '../../api/FetchResponse';
+import { Link, Outlet } from 'react-router-dom';
 
 function Search() {
   const [searchName, setSearchName] = useState<string>(
@@ -37,29 +38,32 @@ function Search() {
   }
   return (
     <>
-      <h1>Hello, it's a list of Pokemon Cards!</h1>
-      <form
-        onSubmit={submitSearch}
-        className="form-search"
-      >
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchName}
-          onChange={(e) => setSearchName(e.target.value)}
-          className="input-search"
+      <Link to={`page/${currentPage}`}>
+        <h1>Hello, it's a list of Pokemon Cards!</h1>
+        <form
+          onSubmit={submitSearch}
+          className="form-search"
+        >
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+            className="input-search"
+          />
+          <input
+            type="submit"
+            value="Submit"
+            className="submit-search-btn"
+          />
+        </form>
+        <Cards pokemonData={pokemonData} />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
-        <input
-          type="submit"
-          value="Submit"
-          className="submit-search-btn"
-        />
-      </form>
-      <Cards pokemonData={pokemonData} />
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      </Link>
+      <Outlet />
     </>
   );
 }
