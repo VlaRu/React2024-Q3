@@ -38,7 +38,7 @@ function Search() {
   }
   return (
     <>
-      <Link to={`page/${currentPage}`}>
+      <Link to={`?page=${currentPage}&pageSize=10&search=`}>
         <h1>Hello, it's a list of Pokemon Cards!</h1>
         <form
           onSubmit={submitSearch}
@@ -57,6 +57,7 @@ function Search() {
             className="submit-search-btn"
           />
         </form>
+
         <Cards pokemonData={pokemonData} />
         <Pagination
           currentPage={currentPage}

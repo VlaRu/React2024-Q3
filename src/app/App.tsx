@@ -12,7 +12,7 @@ function App() {
           path="/"
           element={<Search />}
         >
-          <Route path="page/:id" />
+          <Route path="?page=:id&pageSize=10&search=" />
           <Route path="product/:id" />
         </Route>
         <Route
