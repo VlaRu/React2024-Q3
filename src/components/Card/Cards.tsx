@@ -1,32 +1,30 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import { pokemonType } from '../../interfaces/interface';
+import { DetailCard } from '../Detail/Detail';
 import './Cards.css';
+import { Link } from 'react-router-dom';
 
-export type pokemonType = {
-  name: string;
-  id: string;
-  flavorText: string;
-  images: {
-    small?: string;
-    large?: string;
+export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
+  const [selectedPokemon, setSelectedPokemon] = useState<pokemonType | null>(
+    null
+  );
+  const [activeDetail, setActiveDetail] = useState(true);
+
+  const handleCardClick = (pokemon: pokemonType) => {
+    setSelectedPokemon(pokemon);
+    setActiveDetail(true);
   };
-};
 
-export interface CreateCardsProps {
-  data: pokemonType[];
-}
-
-export default class Cards extends Component<CreateCardsProps> {
-  render() {
-    const { data } = this.props;
-
-    return (
-      <>
-        {data && data.length > 0 ? (
-          <div className="container-cards">
-            {data.map((pokemon: pokemonType) => (
+  return (
+    <>
+      {pokemonData && pokemonData.length > 0 ? (
+        <div className="container-cards">
+          {pokemonData.map((pokemon: pokemonType) => (
+            <Link to={`product/${pokemon.id}`}>
               <div
                 key={pokemon.id}
                 className="container-card"
+                onClick={() => handleCardClick(pokemon)}
               >
                 <h2>Name: {pokemon.name}</h2>
                 <div className="container-img_card">
@@ -43,14 +41,21 @@ export default class Cards extends Component<CreateCardsProps> {
                   <h3>Description is absent</h3>
                 )}
               </div>
-            ))}
-          </div>
-        ) : data.length === 0 ? (
-          <p className="error-info">Not found...</p>
-        ) : (
-          <p className="error-info">Loading data...</p>
-        )}
-      </>
-    );
-  }
+            </Link>
+          ))}
+          {selectedPokemon && (
+            <DetailCard
+              data={selectedPokemon}
+              activeDetail={activeDetail}
+              setActiveDetail={setActiveDetail}
+            />
+          )}
+        </div>
+      ) : pokemonData.length === 0 ? (
+        <p className="error-info">Not found...</p>
+      ) : (
+        <p className="error-info">Loading data...</p>
+      )}
+    </>
+  );
 }
