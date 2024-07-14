@@ -1,0 +1,11 @@
+.container-detail {
+  position: absolute;
+  right: 0;
+  width: 30%;
+  height: 100vh;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #12121275;
+}
