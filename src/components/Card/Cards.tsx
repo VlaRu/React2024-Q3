@@ -8,9 +8,11 @@ export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
   const [selectedPokemon, setSelectedPokemon] = useState<pokemonType | null>(
     null
   );
+  const [activeDetail, setActiveDetail] = useState(true);
 
   const handleCardClick = (pokemon: pokemonType) => {
     setSelectedPokemon(pokemon);
+    setActiveDetail(true);
   };
 
   return (
@@ -41,7 +43,13 @@ export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
               </div>
             </Link>
           ))}
-          {selectedPokemon && <DetailCard data={selectedPokemon} />}
+          {selectedPokemon && (
+            <DetailCard
+              data={selectedPokemon}
+              activeDetail={activeDetail}
+              setActiveDetail={setActiveDetail}
+            />
+          )}
         </div>
       ) : pokemonData.length === 0 ? (
         <p className="error-info">Not found...</p>

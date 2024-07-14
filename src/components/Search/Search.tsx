@@ -57,8 +57,9 @@ function Search() {
             className="submit-search-btn"
           />
         </form>
-
-        <Cards pokemonData={pokemonData} />
+        <Link to="/">
+          <Cards pokemonData={pokemonData} />
+        </Link>
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
