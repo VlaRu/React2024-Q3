@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 interface DataDetail {
   id: string;
   images: {
-    small: string;
+    small?: string;
   };
 }
 
 interface Detail {
   data: DataDetail;
-  activeDetail: string;
-  setActiveDetail: (id: string) => void;
+  activeDetail: boolean;
+  setActiveDetail: (id: boolean) => void;
 }
 
 export function DetailCard({ data, activeDetail, setActiveDetail }: Detail) {

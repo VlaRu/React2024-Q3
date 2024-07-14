@@ -5,6 +5,7 @@ import { pokemonType } from '../../interfaces/interface';
 import { Pagination } from '../Pagination/Pagination';
 import { FetchResponse } from '../../api/FetchResponse';
 import { Link, Outlet } from 'react-router-dom';
+import { Loading } from '../Loading/Loading';
 
 function Search() {
   const [searchName, setSearchName] = useState<string>(
@@ -12,6 +13,7 @@ function Search() {
   );
   const [pokemonData, setPokemonData] = useState<pokemonType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
 
   const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,14 +28,17 @@ function Search() {
   }, [searchName, currentPage]);
 
   async function fetchData() {
+    setIsFetchingData(false);
     try {
       const data = await FetchResponse({
         query: searchName,
         page: currentPage,
       });
       setPokemonData(data);
+      setIsFetchingData(true);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setIsFetchingData(false);
     }
   }
   return (
@@ -58,7 +63,7 @@ function Search() {
           />
         </form>
         <Link to="/">
-          <Cards pokemonData={pokemonData} />
+          {isFetchingData ? <Cards pokemonData={pokemonData} /> : <Loading />}
         </Link>
         <Pagination
           currentPage={currentPage}
