@@ -15,3 +15,11 @@ export interface CreateCardsProps {
 export interface DataFetchingProps {
   query: string;
 }
+
+export interface ApiSearchResponse {
+  data: pokemonType[];
+  page: number;
+  pageSize: number;
+  count: number;
+  totalCount: number;
+}

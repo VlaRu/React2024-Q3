@@ -1,4 +1,3 @@
-import { FetchDetailCard } from '../../api/FetchResponse';
 import './Detail.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +16,6 @@ interface Detail {
 
 export function DetailCard({ data, activeDetail, setActiveDetail }: Detail) {
   const navigate = useNavigate();
-  FetchDetailCard({ idCard: data });
   return (
     <>
       {activeDetail ? (
@@ -33,7 +31,6 @@ export function DetailCard({ data, activeDetail, setActiveDetail }: Detail) {
             >
               Close
             </button>
-
             <img
               src={data.images.small}
               alt="pokemon-img"
