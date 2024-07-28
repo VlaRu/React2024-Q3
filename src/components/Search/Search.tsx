@@ -1,73 +1,76 @@
-import { useEffect, useState } from 'react';
-import './Search.css';
+import { useState } from 'react';
 import Cards from '../Card/Cards';
-import { pokemonType } from '../../interfaces/interface';
 import { Pagination } from '../Pagination/Pagination';
-import { FetchResponse } from '../../api/FetchResponse';
 import { Link, Outlet } from 'react-router-dom';
 import { Loading } from '../Loading/Loading';
+import { useGetPokemonByNameQuery } from '../../api/reduxResponse';
+import './Search.css';
 
 function Search() {
   const [searchName, setSearchName] = useState<string>(
     localStorage.getItem('searchValue') || ''
   );
-  const [pokemonData, setPokemonData] = useState<pokemonType[]>([]);
+  const [submitName, setSubmitName] = useState<string>(
+    localStorage.getItem('searchValue') || searchName
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+  const {
+    data: apiData,
+    error,
+    isLoading,
+  } = useGetPokemonByNameQuery({ name: submitName, page: currentPage });
+  const countPage = () =>
+    apiData && apiData.totalCount > 8 ? Math.ceil(apiData.totalCount / 8) : 1;
+  const pageCount = countPage();
 
-  const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     localStorage.setItem('searchValue', searchName.trim());
-    fetchData();
+    setSubmitName(searchName);
+    console.log('click');
   };
 
-  useEffect(() => {
-    if (searchName || currentPage) {
-      fetchData();
-    }
-  }, [searchName, currentPage]);
-
-  async function fetchData() {
-    setIsFetchingData(false);
-    try {
-      const data = await FetchResponse({
-        query: searchName,
-        page: currentPage,
-      });
-      setPokemonData(data);
-      setIsFetchingData(true);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsFetchingData(false);
-    }
-  }
   return (
     <>
       <Link to={`?page=${currentPage}&pageSize=10&search=`}>
         <h1>Hello, it's a list of Pokemon Cards!</h1>
         <form
-          onSubmit={submitSearch}
+          /* onSubmit={handleSearch} */
           className="form-search"
         >
           <input
-            type="text"
+            type="search"
             placeholder="Search..."
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
             className="input-search"
           />
-          <input
-            type="submit"
-            value="Submit"
+          <button
             className="submit-search-btn"
-          />
+            onClick={handleSearch}
+          >
+            Submit
+          </button>
         </form>
-        <Link to="/">
-          {isFetchingData ? <Cards pokemonData={pokemonData} /> : <Loading />}
-        </Link>
+        <>
+          {error ? (
+            <p>
+              {error.status} {JSON.stringify(error.data)}
+            </p>
+          ) : isLoading ? (
+            <Loading />
+          ) : apiData && apiData.data.length ? (
+            <Cards pokemonData={apiData.data} />
+          ) : (
+            <p className="error-info">Not found...</p>
+          )}
+        </>
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalCount={pageCount}
         />
       </Link>
       <Outlet />

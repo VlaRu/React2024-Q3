@@ -3,6 +3,8 @@ import { pokemonType } from '../../interfaces/interface';
 import { DetailCard } from '../Detail/Detail';
 import './Cards.css';
 import { Link } from 'react-router-dom';
+import { Loading } from '../Loading/Loading';
+import { URL_DEFAULT_LIST } from '../../utils/variables';
 
 export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
   const [selectedPokemon, setSelectedPokemon] = useState<pokemonType | null>(
@@ -20,7 +22,7 @@ export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
       {pokemonData && pokemonData.length > 0 ? (
         <div className="container-cards">
           {pokemonData.map((pokemon: pokemonType) => (
-            <Link to={`product/${pokemon.id}`}>
+            <Link to={`product/${pokemon.id}${URL_DEFAULT_LIST}`}>
               <div
                 key={pokemon.id}
                 className="container-card"
@@ -54,7 +56,10 @@ export default function Cards({ pokemonData }: { pokemonData: pokemonType[] }) {
       ) : pokemonData.length === 0 ? (
         <p className="error-info">Not found...</p>
       ) : (
-        <p className="error-info">Loading data...</p>
+        <p className="error-info">
+          Loading data...
+          <Loading />
+        </p>
       )}
     </>
   );
