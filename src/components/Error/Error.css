@@ -1,0 +1,8 @@
+.error-btn {
+  background-color: orange;
+  font-size: 25px;
+}
+
+.error-btn:hover {
+  background-color: rgb(153, 100, 0);
+}
